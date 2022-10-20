@@ -1,0 +1,49 @@
+server:
+  port: 8080 #服务端口号
+spring:
+  application:
+    name: routerServiceCloud
+
+  ###############################devtools###############################
+  devtools:
+    restart:
+      poll-interval: 3000ms
+      quiet-period: 2999ms
+
+
+########################################### Spring cloud 自定义服务名称和 ip 地址###############################################
+eureka:
+  client: #将客户端注册到 eureka 服务列表内
+    service-url:
+      defaultZone: http://127.0.0.1:7003/eureka #这个地址是 9999注册中心在 application.yml 中暴露出来额注册地址 （单机版）
+  instance:
+    instance-id: bank-login-provider-8001 #自定义服务名称信息
+    prefer-ip-address: true  #显示访问路径的 ip 地址
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+feign:
+  client:
+    config:
+      default:
+        #建立连接所用的时间，适用于网络状况正常的情况下，两端连接所需要的时间
+        ConnectTimeOut: 10000
+        #指建立连接后从服务端读取到可用资源所用的时间
+        ReadTimeOut: 10000
+########################################## spring cloud 使用 Spring Boot actuator 监控完善信息###################################
+# Spring Boot 2.50对 actuator 监控屏蔽了大多数的节点，只暴露了 heath 节点，本段配置（*）就是为了开启所有的节点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"   # * 在yaml 文件属于关键字，所以需要加引号
+info:
+  app.name: bank-login-consumer
+  company.name: bank.lizongle.c
+  build.aetifactId: @project.artifactId@
+  build.version: @project.version@
+

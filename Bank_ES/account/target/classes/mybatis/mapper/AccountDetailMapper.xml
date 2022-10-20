@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.bank.mapper.AccountDetailMapper">
+  <resultMap id="BaseResultMap" type="org.bank.entity.AccountDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="account_no" jdbcType="VARCHAR" property="accountNo" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="balance" jdbcType="DECIMAL" property="balance" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="deleted" jdbcType="TINYINT" property="deleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, account_no, user_name, title, `type`, amount, balance, order_no, createtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from account_detail
+    where id = #{id,jdbcType=BIGINT} AND  deleted=1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from account_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.bank.entity.AccountDetail" keyProperty="id" useGeneratedKeys="true">
+    insert into account_detail (id, account_no, user_name,
+      title, `type`, amount,
+      balance, order_no, createtime
+      )
+    values (#{id,jdbcType=BIGINT}, #{accountNo,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+      #{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL},
+      #{balance,jdbcType=DECIMAL}, #{orderNo,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective"  keyProperty="id" parameterType="org.bank.entity.AccountDetail" useGeneratedKeys="true">
+    insert into account_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="accountNo != null">
+        account_no,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="balance != null">
+        balance,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="accountNo != null">
+        #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="balance != null">
+        #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.bank.entity.AccountDetail">
+    update account_detail
+    <set>
+      <if test="accountNo != null">
+        account_no = #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="balance != null">
+        balance = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.bank.entity.AccountDetail">
+    update account_detail
+    set account_no = #{accountNo,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
+      balance = #{balance,jdbcType=DECIMAL},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="org.bank.entity.AccountDetail">
+    select <include refid="Base_Column_List"></include>
+    from account
+    <where>
+      deleted=1
+      <if test="acountNo!=null and acountNo!=''">
+        AND account_no LIKE concat('%',#{acountNo},'%')
+      </if>
+      <if test="userId!=null and userId!='' ">
+        AND user_id=#{userId}
+      </if>
+    </where>
+  </select>
+</mapper>

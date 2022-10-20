@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.bank.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="org.bank.entity.Order">
+    <id column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />
+    <result column="account_no" jdbcType="VARCHAR" property="accountNo" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="total_amout" jdbcType="DECIMAL" property="totalAmout" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="paytime" jdbcType="TIMESTAMP" property="paytime" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    order_no, goods_id,account_no, title, num, price, total_amout, user_id, `status`,remark, createtime,
+    paytime, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from   `order`
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from `order`
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="org.bank.entity.Order">
+    insert into `order` (order_no, goods_id, title,
+      num, price, total_amout, 
+      user_id, `status`,remark, createtime,
+      paytime, updatetime)
+    values (#{orderNo,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{num,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{totalAmout,jdbcType=DECIMAL}, 
+      #{userId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
+      #{paytime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.bank.entity.Order">
+    insert into `order`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="totalAmout != null">
+        total_amout,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="paytime != null">
+        paytime,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="totalAmout != null">
+        #{totalAmout,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paytime != null">
+        #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.bank.entity.Order">
+    update `order`
+    <set>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="totalAmout != null">
+        total_amout = #{totalAmout,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status == 'fail'">
+        `paytime` = null ,
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paytime != null">
+        paytime = #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.bank.entity.Order">
+    update `order`
+    set goods_id = #{goodsId,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      total_amout = #{totalAmout,jdbcType=DECIMAL},
+      user_id = #{userId,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      paytime = #{paytime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="org.bank.entity.Order">
+    select <include refid="Base_Column_List"></include>
+    from `order`
+    <where>
+      deleted=1
+      <if test="title!=null and title!=''">
+        AND title LIKE concat('%',#{title},'%')
+      </if>
+      <if test="orderNo!=null and orderNo!=''">
+        AND order_no LIKE concat('%',#{orderNo},'%')
+      </if>
+      <if test="status!=null and status!=''">
+        AND status =#{status,jdbcType=VARCHAR}
+      </if>
+      <if test="userId!=null and userId!=''">
+        AND user_id =#{userId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+</mapper>
